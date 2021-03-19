@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<js:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:js="library://ns.apache.org/royale/basic"
+				xmlns:j="library://ns.apache.org/royale/jewel"
+				xmlns:services="services.*">
+	
+	<fx:Style>
+		@namespace js "library://ns.apache.org/royale/basic";
+		
+		/* Vertically center the cells of the Tree and TreeGrid and give
+		 * them a thin border.
+		 */
+		.Tree .StringItemRenderer {
+			border: solid 0.5px #ACACAC;
+			line-height: 40px;
+		}
+
+		.TreeGrid .StringItemRenderer {
+			border: solid 0.5px #ACACAC;
+			line-height: 40px;
+		}
+	</fx:Style>
+	
+	<fx:Script>
+		<![CDATA[
+		 import org.apache.royale.events.MouseEvent;
+		 import org.apache.royale.svg.Text;
+		 import org.apache.royale.jewel.Alert;
+		 import models.*;
+            import org.apache.royale.events.CloseEvent;
+            import org.apache.royale.jewel.DataGrid;
+             import org.apache.royale.events.Event;
+           import org.apache.royale.events.MouseEvent;
+           import org.apache.royale.jewel.Alert;
+           import org.apache.royale.collections.ArrayList;
+           //import com.adobe.serialization.json.JSON;
+             public function aClickHandler(event:MouseEvent):void {
+             	
+             }
+
+           public function getGithubContent(event:MouseEvent):void
+           {
+           	if(tree.selectedIndex == 0){
+               service.getContent();
+               }
+               else if(tree.selectedIndex == 1){
+               	service1.getContent();
+               }
+           }
+           
+           public function dataReadyHandler(event:Event):void
+            {
+               
+                var strdatajson: String ;
+                if(tree.selectedIndex == 0){
+                strdatajson =service.jsonToString;
+                var jsonData:Object = JSON.parse(strdatajson);
+                var htmstr:String="<table border=1><tr><th>userID</th><th>id</th><th>title</th><th>body</th></tr>";
+
+                for(var i:int=0; i<jsonData.length; i++)
+                {
+                    htmstr=htmstr+"<tr><td>"+jsonData[i].userId+"</td>";
+                    htmstr=htmstr+"<td>"+jsonData[i].id+"</td>";
+                    htmstr=htmstr+"<td>"+jsonData[i].title+"</td>";
+                    htmstr=htmstr+"<td>"+jsonData[i].body+"</td></tr>";
+                }
+                htmstr=htmstr+"</table>";
+                jsnlbl.html=htmstr;
+                }
+                else if(tree.selectedIndex == 1){
+                	 strdatajson=service1.jsonToString;
+               // hi.text="hi";
+                var jsonData1:Object = JSON.parse(strdatajson);
+
+               // var htmstring:String="<table border=1><tr><th>ip</th><th>cc</th><th>cname</th><th>rcode</th><th>rname</th><th>city</th><th>zcode</th><th>timezone</th><th>lat</th><th>long</th><th>mcode</th></tr>";
+				var htmstring:String="<table border=1><tr><th>userID</th><th>id</th><th>title</th></tr>";
+                for(var j:int=0; j<jsonData1.length; j++)
+                {
+                   /* htmstring=htmstring+"<tr><td>"+jsonData1[j].ip+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].country_code+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].country_name+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].region_code+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].region_name+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].city+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].zip_code+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].time_zone+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].latitude+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].longitude+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].metro_code+"</td></tr>";*/
+                   // htmstr=htmstr+"<td>"+jsonData[i].body+"</td></tr>";
+                    htmstring=htmstring+"<tr><td>"+jsonData1[j].userId+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].id+"</td>";
+                    htmstring=htmstring+"<td>"+jsonData1[j].title+"</td></tr>";
+                }
+                htmstring=htmstring+"</table>";
+                jsnlbl.html=htmstring;
+                }
+
+            }
+    		 
+		 override public function addedToParent():void
+		{
+			super.addedToParent();
+		}
+		
+            private function changeHandler(event:Event):void {
+                selected.text = "Selected: "+ tree.selectedItem.title ;
+            }
+            public function visibility(event:Event):Boolean{
+            	return true;
+            }
+            
+		]]>
+	</fx:Script>
+	 <fx:Declarations>
+        <services:GitHubService id="service"
+           sourceCodeUrl="https://jsonplaceholder.typicode.com/posts"
+           dataReady="dataReadyHandler(event)"/>
+           <services:GitHubService id="service1"
+           sourceCodeUrl="https://jsonplaceholder.typicode.com/posts"
+           dataReady="dataReadyHandler(event)"/>
+    </fx:Declarations>
+    
+    <js:beads>
+        <js:ViewDataBinding />
+    </js:beads>
+	
+	
+
+	
+	<js:HGroup>
+	<!--<js:DynamicDataGrid id="DGrid" width="500" height="500" rowHeight="40" >
+		<js:beads>
+			<js:ConstantBinding
+				sourceID="applicationModel"
+				sourcePropertyName="dg"
+				destinationPropertyName="dataProvider" />
+		</js:beads>
+		<js:columns>
+			<js:TreeGridColumn label="Title" dataField="title" columnWidth="250" />
+			<js:DataGridColumn label="Artist" dataField="artist" columnWidth="150" />
+			<js:DataGridColumn label="Length" dataField="length" columnWidth="100" />
+		</js:columns>
+	</js:DynamicDataGrid>-->
+		
+	<!--<js:TreeGrid id="treeGrid" width="500" height="500" rowHeight="40" change="changeHandler(event)">
+		<js:beads>
+			<js:ConstantBinding
+				sourceID="applicationModel"
+				sourcePropertyName="dg"
+				destinationPropertyName="dataProvider" />
+		</js:beads>
+		<js:columns>
+			<js:TreeGridColumn label="Title" dataField="title" columnWidth="250" />
+			<js:DataGridColumn label="Artist" dataField="artist" columnWidth="150" />
+			<js:DataGridColumn label="Length" dataField="length" columnWidth="100" />
+		</js:columns>
+	</js:TreeGrid>-->
+	
+	<js:Tree id="tree" x="30" y="30" width="400" height="500" 
+			 labelField="title" rowHeight="40" click="getGithubContent(event)">
+		<js:beads>
+			<js:ConstantBinding
+				sourceID="applicationModel"
+				sourcePropertyName="treeData"
+				destinationPropertyName="dataProvider" />
+		</js:beads>
+	</js:Tree>
+	<js:Label id="jsnlbl" html=""/>
+	<js:VGroup>
+			<js:Label id="selected" click="aClickHandler(event)"/>
+			<js:Label id="selected1" text=" "/>
+			</js:VGroup>
+	</js:HGroup>
+
+</js:View>
