@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <output>
+    <movie path="bin-debug/TreeExample3aFlex.swf"/>
+    <movie platform="Flash Player"/>
+    <movie disabled="False"/>
+    <movie height="600"/>
+    <movie width="800"/>
+    <movie fps="60"/>
+    <movie background="#0F00FF"/>
+    <movie input=""/>
+    <movie version="32"/>
+  </output>
+  &lt;!-- Other classes to be compiled into your SWF --&gt;
+  <jsOutput>
+    <option path="C:\Users\vbhat\OneDrive - HARMAN\Desktop\Royale Project\TreeExample3aFlex"/>
+  </jsOutput>
+  <classpaths>
+    <class path="src"/>
+  </classpaths>
+  <moonshineResourcePaths></moonshineResourcePaths>
+  <moonshineNativeExtensionPaths></moonshineNativeExtensionPaths>
+  <build>
+    <option showUnusedTypeSelectorWarnings="True"/>
+    <option verboseStackTraces="False"/>
+    <option locale=""/>
+    <option accessible="False"/>
+    <option strict="True"/>
+    <option loadConfig=""/>
+    <option linkReport=""/>
+    <option customSDK="C:\MoonshineSDKs\Flex_SDK\Flex_4.16.1_AIR_32.0"/>
+    <option showActionScriptWarnings="True"/>
+    <option benchmark="False"/>
+    <option staticLinkRSL="False"/>
+    <option additional=""/>
+    <option antBuildPath="build/build.xml"/>
+    <option useNetwork="True"/>
+    <option es="False"/>
+    <option compilerConstants=""/>
+    <option showBindingWarnings="True"/>
+    <option useResourceBundleMetadata="True"/>
+    <option allowSourcePathOverlap="False"/>
+    <option sourceMap="False"/>
+    <option showDeprecationWarnings="True"/>
+    <option warnings="True"/>
+    <option optimize="False"/>
+  </build>
+  <mavenBuild>
+    <option dominoNotesPlatform=""/>
+    <option mavenBuildPath="C:\Users\vbhat\OneDrive - HARMAN\Desktop\Royale Project\TreeExample3aFlex"/>
+    <option commandLine=""/>
+    <option settingsFilePath=""/>
+    <option dominoNotesProgram=""/>
+    <actions>
+      <action actionName="Build" action="install"/>
+      <action actionName="Clean and package" action="clean package"/>
+      <action actionName="Clean" action="clean"/>
+      <action actionName="Clean and Build" action="clean install"/>
+      <action actionName="Exploded" action="war:exploded"/>
+    </actions>
+  </mavenBuild>
+  <includeLibraries></includeLibraries>
+  <libraryPaths></libraryPaths>
+  <externalLibraryPaths></externalLibraryPaths>
+  <rslPaths></rslPaths>
+  <intrinsics>
+    <element path="Library/AS3/frameworks/Flex4"/>
+    <element path="Library\AS3\frameworks\Flex4"/>
+  </intrinsics>
+  <library></library>
+  <modules/>
+  <compileTargets>
+    <compile path="src/TreeExample3aFlex.mxml"/>
+  </compileTargets>
+  <hiddenPaths></hiddenPaths>
+  <preBuildCommand>null</preBuildCommand>
+  <postBuildCommand alwaysRun="False">null</postBuildCommand>
+  <trustSVNCertificate>False</trustSVNCertificate>
+  <options>
+    <option defaultBuildTargets=""/>
+    <option isRoyale="False"/>
+    <option testMovie=""/>
+    <option isExportedToExistingSource="False"/>
+    <option showHiddenPaths="False"/>
+    <option testMovieCommand=""/>
+    <option isPrimeFacesVisualEditor="False"/>
+    <option visualEditorExportPath=""/>
+  </options>
+  <moonshineRunCustomization>
+    <option webBrowser="null"/>
+    <option deviceConnectType="USB"/>
+    <option customUrlToLaunch=""/>
+    <option targetPlatform="2"/>
+    <option launchMethod="Simulator"/>
+    <option deviceSimulator="null"/>
+    <option urlToLaunch="\bin-debug\TreeExample3aFlex.html"/>
+    <option projectType="2"/>
+    <deviceSimulator>null</deviceSimulator>
+    <certAndroid>null</certAndroid>
+    <certIos>null</certIos>
+    <certIosProvisioning>null</certIosProvisioning>
+  </moonshineRunCustomization>
+</project>
