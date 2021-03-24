@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+   xmlns:s="library://ns.adobe.com/flex/spark" 
+   xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="300" creationComplete="init()" >
+ <fx:Declarations>
+  <s:RadioButtonGroup id="rdGroup"/>
+ </fx:Declarations>
+ <fx:Script>
+  <![CDATA[ 
+   import mx.collections.*;
+   import mx.collections.ArrayCollection;
+   import mx.controls.Alert;
+   import mx.controls.dataGridClasses.DataGridColumn;
+   import mx.events.ListEvent;
+   import mx.utils.ArrayUtil;
+   import mx.utils.ObjectUtil;
+
+  private var searchColumnName:String="firstName";
+   
+  private var arr:Array = [];
+  private var arrColl:ArrayCollection;
+   
+  public function init():void
+  {
+   var cols:Array = [];
+   cols.push(new DataGridColumn("firstName"));
+   cols.push(new DataGridColumn("lastName"));
+   cols.push(new DataGridColumn("town"));
+   cols.push(new DataGridColumn("state"));
+   cols.push(new DataGridColumn("zipCode"));
+   
+   
+   arr.push({firstName:"Carol", lastName:"F.", town:"Waltham", state:"MA", zipCode:"02452"});
+   arr.push({firstName:"Darrell", lastName:"L.",town:"Waltham", state:"MA", zipCode:"02452"});
+   arr.push({firstName:"Hans", lastName:"M.", town:"San Francisco", state:"CA", zipCode:"94103"});
+   arr.push({firstName:"Kevin", lastName:"L.", town:"San Francisco", state:"CA", zipCode:"94103"});
+   
+   
+   dg.columns = cols;
+   arrColl = new ArrayCollection(arr);
+   dg.dataProvider = arrColl ;
+   
+   rdGroup.selectedValue = "First Name";
+  }
+  public function filter():void 
+  {
+   arrColl.filterFunction = filterFirst;
+   arrColl.refresh();    
+  }
+  
+  public function filterReset():void 
+  {    
+   arrColl.filterFunction = null;
+   arrColl.refresh();    
+  }
+  
+  private function filterFirst(item:Object):Boolean
+  {
+  // ^ leading pattern -  look for string starts with the pattern and return the first pattern match
+  // with out ^ will look for pattern any where in string and return the first pattern match
+  // i  - case insensitive
+
+   return item[searchColumnName].match(new RegExp("^"+searchString.text, 'i'));
+  }   
+  
+  private function search():void
+  {
+   if(searchString.text !='')
+   {
+    filter()
+   }
+   else
+   {
+    filterReset()
+   }
+  }
+  
+  private function eraseText(event:MouseEvent):void
+  {
+   searchString.text ='';
+  }
+  
+
+   
+   protected function byFirstName_clickHandler(event:MouseEvent):void
+   {
+    if(event.currentTarget.id == "byFirstName" )
+    {
+     searchColumnName = "firstName";
+    }
+    
+    if(event.currentTarget.id == "byLastname" )
+    {
+     searchColumnName = "lastName";
+    }
+    
+    if(event.currentTarget.id == "byTown" )
+    {
+     searchColumnName = "town";
+    }
+    
+    if(event.currentTarget.id == "byState" )
+    {
+     searchColumnName = "state";
+    }    
+   }
+   
+  ]]>
+ </fx:Script> 
+ <s:Group x="0" y="2" width="100%" height="86">
+  
+  <s:Label x="0" y="53" width="109" height="27" text="Search keyword:" verticalAlign="middle"/>
+  
+  <s:TextInput id="searchString" x="91" y="51" height="31" width="309" change="search()"
+      contentBackgroundColor="#FFFFFF" click="eraseText(event)" tabEnabled="true"
+      tabIndex="1" text="Search" toolTip="Filter Gene Name"/>
+  
+  <s:HGroup x="0" y="20" width="400" height="23" horizontalAlign="left" >
+   <s:RadioButton id="byFirstName" label="First Name" groupName="rdGroup" click="byFirstName_clickHandler(event)"/>
+   <s:RadioButton id="byLastname" label="Last Name" groupName="rdGroup"  click="byFirstName_clickHandler(event)"/>
+   <s:RadioButton id="byTown" label="Town" groupName="rdGroup"  click="byFirstName_clickHandler(event)"/>
+   <s:RadioButton id="byState" label="State" groupName="rdGroup"  click="byFirstName_clickHandler(event)"/>
+  </s:HGroup>
+  
+  <s:Label x="7" y="3" width="128" text="Filter Search By"/>
+  
+ </s:Group> 
+ 
+ <mx:DataGrid id="dg" x="0" y="96" width="100%" height="202" > </mx:DataGrid>
+ 
+</s:Group>
