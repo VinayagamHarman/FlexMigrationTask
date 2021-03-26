@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   
+			   minWidth="955"
+			   minHeight="600"
+			   xmlns:models="models.*"
+			   xmlns:services="services.*">
+			   
+	<fx:Declarations>
+	<services:GitHubService id="service"
+           sourceCodeUrl="https://jsonplaceholder.typicode.com/posts"
+           dataReady="dataReadyHandler(event)"/>
+	</fx:Declarations>
+	<fx:Style>
+		@namespace s "library://ns.apache.org/flex";
+		
+		/* Vertically center the cells of the Tree and TreeGrid and give
+		 * them a thin border.
+		 */
+		.Tree .StringItemRenderer {
+			border: solid 0.5px #ACACAC;
+			line-height: 40px;
+		}
+
+		.TreeGrid .StringItemRenderer {
+			border: solid 0.5px #ACACAC;
+			line-height: 40px;
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+		 import flash.events.MouseEvent;
+		 import mx.controls.Text;
+		 import models.*;
+         import mx.events.CloseEvent;
+         import flash.events.Event;
+         import mx.collections.ArrayList;
+           //import com.adobe.serialization.json.JSON;
+
+           public function getGithubContent(event:MouseEvent):void
+           {
+               service.getContent();
+           }
+           
+           public function dataReadyHandler(event:Event):void
+            {
+               //Alert.show(service.jsonToString, "JSON data retrieved");
+               //jsonData.html = service.json.name +
+               //                 "abcd " + service.json.sha +
+               //                 "abcd " + service.json._links.html;
+                var strdatajson: String =service.jsonToString;
+               // hi.text="hi";
+                var jsonData:Object = JSON.parse(strdatajson);
+               //var jsonData:Object = JSON.parse(jsondata);
+               
+				//var dp:ArrayList = new ArrayList(jsonData);
+				//hi.text=jsonData[0].id;
+				//grid.dataProvider = jsonData;
+
+                var htmstr:String="<table border=1><tr><th>userID</th><th>id</th><th>title</th><th>body</th></tr>";
+
+                for(var i:int=0; i<jsonData.length; i++)
+                {
+                    htmstr=htmstr+"<tr><td>"+jsonData[i].userId+"</td>";
+                    htmstr=htmstr+"<td>"+jsonData[i].id+"</td>";
+                    htmstr=htmstr+"<td>"+jsonData[i].title+"</td>";
+                    htmstr=htmstr+"<td>"+jsonData[i].body+"</td></tr>";
+                }
+                htmstr=htmstr+"</table>";
+                jsnlbl.htmlText=htmstr;
+
+            }
+                       // Event handler function uses a static method to show
+           // a pop-up window with the title, message, and requested buttons.        
+           public function aClickHandler(event:MouseEvent):void {
+           
+           		 //var dg:DataGrid = new DataGrid();
+           		//dg.columns = ["title", "artist", "length"];
+           		//calledMethod.apply( this, myArray );
+           		   //treeGrid.dataProvider = (MyModel.getChildren1(tree.selectedItem));
+           		   //visibility();
+           		//dg.dataProvider = MyModel.treeData.getChildren(tree.selectedItem)[0];//String(MyModel.treeData.getChildren(tree.selectedItem)[0].title)
+              // var alert:Alert = Alert.show(String(MyModel.treeData.getChildren(tree.selectedItem)[0].title), tree.selectedItem.title, Alert.YES | Alert.NO);
+             //  alert.addEventListener(CloseEvent.CLOSE, alertClickHandler);
+             
+           }
+       
+           // Event handler function for displaying the selected Alert button.
+           private function alertClickHandler(event:CloseEvent):void {
+              // if (event.detail == Alert.YES)
+                   //button.text="You answered Yes";
+               //else
+                   //button.text="You answered No";
+           }
+		 
+            private function changeHandler(event:Event):void {
+                selected.text = "Selected: "+ tree.selectedItem.title ;
+            }
+            public function visibility(event:Event):Boolean{
+            	return true;
+            }
+		]]>
+	</fx:Script>
+	
+		<s:HGroup>
+	
+	
+	 <mx:Label id="jsnlbl" htmlText=""/>
+		
+	
+	
+	<mx:Tree id="tree" x="30" y="30" width="400" height="500" 
+			 labelField="title" rowHeight="40" click="getGithubContent(event)" dataProvider="treeData">
+		
+	</mx:Tree>
+	<s:VGroup>
+			<s:Label id="selected" click="aClickHandler(event)"/>
+			<s:Label id="selected1" text=" "/>
+			<!--<js:TextInput id="textinput" change="aClickHandler(event)" />
+			<js:TextButton id="button" text="expand" height="20" width="60" click="aClickHandler(event)" />-->
+			</s:VGroup>
+	</s:HGroup>
+	
+	
+	
+</s:Application>
