@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <output>
+    <movie path="bin-debug/DataGridExample.swf"/>
+    <movie platform="Flash Player"/>
+    <movie disabled="False"/>
+    <movie height="600"/>
+    <movie width="800"/>
+    <movie fps="60"/>
+    <movie background="#FFFFFF"/>
+    <movie input=""/>
+    <movie version="11"/>
+  </output>
+  &lt;!-- Other classes to be compiled into your SWF --&gt;
+  <jsOutput>
+    <option path="C:\Royale_Projects\BanoshreeRoyale\BanoshreeRoyale\InlineDataGrid\DataGridExample"/>
+  </jsOutput>
+  <classpaths>
+    <class path="src/main/royale"/>
+  </classpaths>
+  <moonshineResourcePaths>
+    <class path="src/main/resources/assets"/>
+  </moonshineResourcePaths>
+  <moonshineNativeExtensionPaths></moonshineNativeExtensionPaths>
+  <build>
+    <option showUnusedTypeSelectorWarnings="True"/>
+    <option verboseStackTraces="False"/>
+    <option locale=""/>
+    <option accessible="False"/>
+    <option strict="True"/>
+    <option loadConfig=""/>
+    <option linkReport=""/>
+    <option customSDK="C:\MoonshineSDKs\Royale_SDK\apache-royale-0.9.7-bin-js\royale-asjs"/>
+    <option showActionScriptWarnings="True"/>
+    <option benchmark="False"/>
+    <option staticLinkRSL="False"/>
+    <option additional=""/>
+    <option antBuildPath="build/build.xml"/>
+    <option useNetwork="True"/>
+    <option es="False"/>
+    <option compilerConstants=""/>
+    <option showBindingWarnings="True"/>
+    <option useResourceBundleMetadata="True"/>
+    <option allowSourcePathOverlap="False"/>
+    <option sourceMap="False"/>
+    <option showDeprecationWarnings="True"/>
+    <option warnings="True"/>
+    <option optimize="False"/>
+  </build>
+  <mavenBuild>
+    <option dominoNotesPlatform=""/>
+    <option mavenBuildPath="C:\Royale_Projects\BanoshreeRoyale\BanoshreeRoyale\InlineDataGrid\DataGridExample"/>
+    <option commandLine=""/>
+    <option settingsFilePath=""/>
+    <option dominoNotesProgram=""/>
+    <actions>
+      <action actionName="Build" action="install"/>
+      <action actionName="Clean and package" action="clean package"/>
+      <action actionName="Clean" action="clean"/>
+      <action actionName="Clean and Build" action="clean install"/>
+      <action actionName="Exploded" action="war:exploded"/>
+    </actions>
+  </mavenBuild>
+  <includeLibraries></includeLibraries>
+  <libraryPaths></libraryPaths>
+  <externalLibraryPaths></externalLibraryPaths>
+  <rslPaths></rslPaths>
+  <intrinsics></intrinsics>
+  <library></library>
+  <modules/>
+  <compileTargets>
+    <compile path="src/main/royale/DataGridExample.mxml"/>
+  </compileTargets>
+  <hiddenPaths></hiddenPaths>
+  <preBuildCommand>null</preBuildCommand>
+  <postBuildCommand alwaysRun="False">null</postBuildCommand>
+  <trustSVNCertificate>False</trustSVNCertificate>
+  <options>
+    <option defaultBuildTargets=""/>
+    <option isRoyale="True"/>
+    <option testMovie=""/>
+    <option isExportedToExistingSource="False"/>
+    <option showHiddenPaths="False"/>
+    <option testMovieCommand=""/>
+    <option isPrimeFacesVisualEditor="False"/>
+    <option visualEditorExportPath=""/>
+  </options>
+  <moonshineRunCustomization>
+    <option webBrowser="Google Chrome"/>
+    <option projectType="2"/>
+    <option deviceConnectType="USB"/>
+    <option customUrlToLaunch=""/>
+    <option targetPlatform="5"/>
+    <option launchMethod="Simulator"/>
+    <option deviceSimulator="null"/>
+    <option urlToLaunch="C:\Royale_Projects\BanoshreeRoyale\BanoshreeRoyale\InlineDataGrid\DataGridExample\bin\js-debug\index.html"/>
+    <deviceSimulator>Apple iPad</deviceSimulator>
+    <certAndroid>null</certAndroid>
+    <certIos>null</certIos>
+    <certIosProvisioning>null</certIosProvisioning>
+  </moonshineRunCustomization>
+</project>
