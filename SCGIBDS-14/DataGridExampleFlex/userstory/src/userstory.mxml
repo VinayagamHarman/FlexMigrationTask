@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:local="*"
+				   xmlns:models="models.*"
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+                 xmlns:mx="library://ns.adobe.com/flex/mx">
+				 
+<fx:Script>
+        <![CDATA[
+			import models.ProductsModel;
+			
+			import mx.controls.DataGrid;
+			
+			import products.Products;
+			import mx.controls.Alert;
+            import mx.events.CloseEvent;
+            //import mx.controls.Button;
+            import mx.controls.Label;
+            //import org.apache.royale.html5.Button;
+           
+            import spark.components.TextInput;
+            import products.Products;
+            import spark.components.Button;
+            //import mx.controls.Button;
+                                    //import products.Product;
+                                   // import org.apache.royale.jewel.beads.views.AlertView;
+           // Event handler function uses a static method to show
+           // a pop-up window with the title, message, and requested buttons.        
+           private function labelClick(event:MouseEvent):void {
+               var alert:Alert = Alert.show("Do you want to save your changes?", "Save Changes", Alert.YES | Alert.NO);
+               alert.addEventListener(CloseEvent.CLOSE, alertClickHandler);
+           }
+       
+           // Event handler function for displaying the selected Alert button.
+           private function alertClickHandler(event:CloseEvent):void {
+               if (event.detail == Alert.YES)
+                   //button.text="You answered Yes";
+                   removeValue();
+               else{}
+                   //button.text="You answered No";
+           }
+			public var entry1:TextInput;
+		 public function dataGridChange(grid:DataGrid, event:Event) : void
+		 {
+			 //output.text = "Clicked on row "+(grid.selectedIndex+1);
+			 vg.visible = true;
+			
+			 var alert:Alert = Alert.show("Remove Value?", "Edit row", Alert.YES | Alert.NO);
+			 alert.x = 643;
+			 alert.y = 90;
+               alert.addEventListener(CloseEvent.CLOSE, alertClickHandler);
+               //alert.addBead(updateBead);
+               var updateButton:Button=new Button();
+              	entry1 = new TextInput();
+               updateButton.label = "Update Value";
+               updateButton.addEventListener(Event.CHANGE, updateNewValue);
+               	var alert1:Alert = Alert.show("Update Value?", "", Alert.YES | Alert.NO);
+               	alert1.addElement(entry1);
+             	alert1.addEventListener(CloseEvent.CLOSE, updateNewValue);
+          }
+		 private function updateNewValue(event:CloseEvent):void
+		{
+		   if (event.detail == Alert.YES)
+			updateValue();
+			else{}
+		}
+			
+		private function refreshGrid():void
+		{
+			var productArray:Object;
+						dataGrid.dataProvider = null;
+			dataGrid.dataProvider = productArray;
+		}
+			
+		private function addValue():void
+		{
+			var productArray:Object;
+						var productList:Object;
+						var product:Products = new Products("xx100",entry.text,44,10,"assets/smallbluerect.jpg");
+			productList.addItemAt(product, dataGrid2.selectedIndex);
+			productArray.splice(dataGrid2.selectedIndex,0,product);
+		}
+		
+		private function updateValue():void
+		{
+			var productList:Object;
+						var productArray:Object;
+						var product:Products = new Products("xx100",entry1.text,44,10,"assets/smallbluerect.jpg");
+			productList.removeItemAt(dataGrid2.selectedIndex);
+			productArray.splice(dataGrid2.selectedIndex,1);
+		productList.addItemAt(product, dataGrid2.selectedIndex);
+		productArray.splice(dataGrid2.selectedIndex,0,product);
+		}
+			
+		private function removeValue():void
+		{
+			var ProductArray:Object;
+						var productList:Object;
+						productList.removeItemAt(dataGrid2.selectedIndex);
+		    ProductArray.splice(dataGrid2.selectedIndex,1);
+		}
+		
+		[BINDABLE]
+		public function visibility(): Boolean {
+			if(dataGrid2.selectedIndex >= 0){
+				return true;
+			}
+			else
+			return false;
+		}
+		 
+		]]>
+    </fx:Script>
+	
+	<fx:Style>
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		
+		/* Puts a box around each cell of the DataGrids.
+		 */
+		mx|DataGrid .DataItemRenderer {
+			border: 1px solid #ACACAC;
+			line-height: 40px;
+		}
+		mx|DataGrid .StringItemRenderer {
+			border: 1px solid #ACACAC;
+			line-height: 40px;
+		}
+		
+		/* Allows the DataGrid to be specified with percentage widths for the columns (rather
+		 * than pixel widths) and does not respond to changes to its dataProvider.
+		 */
+		.PercentageColumnWidths {
+			
+			border: 1px solid #ACACAC;
+		}
+		
+		.OuterGroup {
+			background-color: orange;
+			padding: 10px;
+		}
+		.OuterGroup .DataGrid {
+			position: relative;
+		}
+
+	</fx:Style>
+	<!--<js:beads id="updateBead">
+	<js:TextButton  text="Update Value" click="updateValue()" />
+	<js:TextInput id="entry1" text="New Value" />
+	</js:beads>-->
+		<s:HGroup>
+
+
+	
+		
+	<!-- The default configuration of the DataGrid, using only Array as the dataProvider. A style class
+	     has been added to add the DataGridPercentageLayout bead that lets the columns' widths be
+	     specified by percentages.
+	-->
+	
+	<mx:Container x="20" y="50" width="400" height="350" styleName="OuterGroup">
+		
+	    <!-- demonstrates how to place a DataGrid into a Container that has padding. -->
+		<mx:DataGrid id="dataGrid" width="100%" height="100%" 
+			change="dataGridChange(dataGrid,event)" 
+			rowHeight="40" styleName="PercentageColumnWidths">
+			<!--<js:beads>
+				<js:ConstantBinding
+					sourceID="applicationModel"
+					sourcePropertyName="productArray"
+					destinationPropertyName="dataProvider" />
+				
+			</js:beads>-->
+			<mx:columns>
+				<mx:DataGridColumn headerText="Image" dataField="image" width="15" itemRenderer="products.ProductItemRenderer"/>
+				<mx:DataGridColumn headerText="Title" dataField="title" width="60" />
+				<mx:DataGridColumn headerText="Sales" dataField="sales" width="25" />
+			</mx:columns>
+		</mx:DataGrid>
+		
+	</mx:Container>
+		<!-- controls for first grid -->
+	<s:Label id="output1" x="30" y="430"/>
+	<s:Button label="Refresh Grid" x="20" y="460" click="refreshGrid()" />
+	<s:Label text="Refresh this grid after add or removing values" x="30" y="490" />
+	
+		
+	<!-- A dynamic DataGrid, responding to additions and deletions
+	-->
+	<s:VGroup>
+		<mx:Container>
+	<mx:DataGrid id="dataGrid2" x="520" y="50" width="400" height="350" change="dataGridChange(dataGrid2, event)" 
+				 rowHeight="40">
+		<!--<js:beads>
+			<js:ConstantBinding
+				sourceID="applicationModel"
+				sourcePropertyName="productList"
+				destinationPropertyName="dataProvider" />
+		</js:beads> -->
+		<mx:columns>
+			<mx:DataGridColumn headerText="Image" dataField="image" width="100" itemRenderer="products.ProductItemRenderer"/>
+			<mx:DataGridColumn headerText="Title" dataField="title" width="200" />
+			<mx:DataGridColumn headerText="Sales" dataField="sales" width="100" />
+			
+		</mx:columns>
+	</mx:DataGrid>
+		</mx:Container>
+		
+	<!-- controls for second grid -->
+	<s:VGroup id="vg" visible="false">
+	<s:Label id="output2"  />
+	<s:HGroup id="hg" x="520" y="460">
+	<s:Button  label="Add Value" click="addValue()" />
+	<!--<js:TextButton  text="Remove Value" click="removeValue()" />
+	<js:TextButton  text="Update Value" click="updateValue()" />-->
+	</s:HGroup>
+	<s:TextInput id="entry" text="New Value"/>
+	</s:VGroup>
+	
+	
+	</s:VGroup>
+	
+	<!--<j:PopUp id="popByMethod">-->
+            <!--<js:VGroup id="vg1" visible="false">-->
+	<!--<js:Label id="output2"  />
+	<js:HGroup id="hg" x="520" y="460">
+	<js:TextButton  text="Add Value" click="addValue()" />
+	<js:TextButton  text="Remove Value" click="removeValue()" />
+	<js:TextButton  text="Update Value" click="updateValue()" />
+	</js:HGroup>
+	<js:TextInput id="entry" text="New Value"/>
+	</js:VGroup>-->
+        <!-- </j:PopUp>-->
+	
+
+	
+	<!--
+	  This bead is not working yet. It can be added to either DataGrid when it works.
+		<js:DataGridLinesBead>
+			<js:stroke>
+				<js:SolidColorStroke color="#FF8800" weight="2" />
+			</js:stroke>
+		</js:DataGridLinesBead>-->
+		</s:HGroup>
+
+
+	
+</mx:Application>
+
