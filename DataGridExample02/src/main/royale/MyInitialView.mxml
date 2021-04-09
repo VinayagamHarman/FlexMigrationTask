@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<js:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:js="library://ns.apache.org/royale/basic"
+				xmlns:j="library://ns.apache.org/royale/jewel"
+				xmlns:s="library://ns.apache.org/royale/spark">
+    <fx:Script>
+        <![CDATA[
+			import main.royale.models.ProductsModel;
+			
+			import org.apache.royale.html.DataGrid;
+			
+			import main.royale.products.Product;
+			import org.apache.royale.jewel.Alert;
+            import org.apache.royale.events.CloseEvent;
+            import org.apache.royale.html.elements.Button;
+            import org.apache.royale.jewel.Button;
+            import org.apache.royale.html5.Button;
+            import org.apache.royale.html.TextButton;
+            import org.apache.royale.html.TextInput;
+            import org.apache.royale.jewel.beads.views.AlertView;
+            import org.apache.royale.html.supportClasses.ButtonBarButtonItemRenderer;
+           // Event handler function uses a static method to show
+           // a pop-up window with the title, message, and requested buttons.        
+           public function labelClick(event:MouseEvent):void {
+               var alert:Alert = Alert.show("Do you want to save your changes?", "Save Changes", Alert.YES | Alert.NO);
+               alert.addEventListener(CloseEvent.CLOSE, alertClickHandler);
+           }
+       
+           // Event handler function for displaying the selected Alert button.
+           public function alertClickHandler(event:CloseEvent):void {
+               if (event.detail == Alert.YES)
+                   //button.text="You answered Yes";
+                   removeValue();
+               else{}
+                   //button.text="You answered No";
+           }
+			public var entry1:TextInput;
+			public var entry2:TextInput;
+			public var entry3:TextInput;
+			public var titleStr:String;
+			public var detailStr:String;
+			public var salesStr:String;
+		 public function dataGridChange(grid:DataGrid, output:Label, event:Event) : void
+		 {
+			 output.text = "Clicked on row "+(grid.selectedIndex+1);
+			 vg.visible = true;
+			
+			 var alert:Alert = Alert.show("Remove Value?", "Edit row", Alert.YES | Alert.NO);
+			 alert.x = 643;
+			 alert.y = 90;
+               alert.addEventListener(CloseEvent.CLOSE, alertClickHandler);
+            
+               var updateButton:TextButton = new TextButton();
+              	entry1 = new TextInput();
+              	entry2 = new TextInput();
+              	entry3 = new TextInput();
+              	titleStr = "Title";
+              	detailStr = "Detail";
+              	salesStr = "Sales";
+               updateButton.text = "Update Value";
+               updateButton.addEventListener(Event.CHANGE, updateNewValue);
+               	var alert1:Alert = Alert.show("Update Value?", "", Alert.YES | Alert.NO);
+               	alert1.show(titleStr);
+               	               	alert1.show(detailStr);
+               	               	               	alert1.show(salesStr);
+               	alert1.addElement(entry1);
+               	alert1.addElement(entry2);
+               	alert1.addElement(entry3);
+             	alert1.addEventListener(CloseEvent.CLOSE, updateNewValue);
+             	//var alertv:AlertView = new AlertView();
+             	//alertv.content = alert1, alert;
+             	//alertv.addEventListener(CloseEvent.CLOSE, updateNewValue);
+             	//removecol.addEventListener(CloseEvent.CLOSE, removeValue, true);
+             	edit.addEventListener(CloseEvent.CLOSE, removeValue, true);
+             	//edit.visible = true;
+             	//removeButtons.
+		 }
+		 public function updateNewValue(event:CloseEvent):void
+		{
+		   if (event.detail == Alert.YES)
+			updateValue();
+			else{}
+		}
+			
+		public function refreshGrid():void
+		{
+			dataGrid.dataProvider = null;
+			dataGrid.dataProvider = (applicationModel as ProductsModel).productArray;
+		}
+			
+		public function addValue():void
+		{
+			var product:Product = new Product("xx100",entry.text,"44","10","main/resources/assets/smallbluerect.jpg","main/resources/assets/download.jpg");
+			(applicationModel as ProductsModel).productList.addItemAt(product, dataGrid2.selectedIndex);
+			(applicationModel as ProductsModel).productArray.splice(dataGrid2.selectedIndex,0,product);
+		}
+		
+		public function updateValue():void
+		{
+			var product:Product = new Product("xx100",entry1.text,entry2.text,entry3.text,"main/resources/assets/smallbluerect.jpg","main/resources/assets/download.jpg");
+			(applicationModel as ProductsModel).productList.removeItemAt(dataGrid2.selectedIndex);
+			(applicationModel as ProductsModel).productArray.splice(dataGrid2.selectedIndex,1);
+			(applicationModel as ProductsModel).productList.addItemAt(product, dataGrid2.selectedIndex);
+			(applicationModel as ProductsModel).productArray.splice(dataGrid2.selectedIndex,0,product);
+		}
+			
+		public function removeValue():void
+		{
+			(applicationModel as ProductsModel).productList.removeItemAt(dataGrid2.selectedIndex);
+			(applicationModel as ProductsModel).productArray.splice(dataGrid2.selectedIndex,1);
+		}
+		
+		[BINDABLE]
+		public function visibility(): Boolean {
+			if(dataGrid2.selectedIndex >= 0){
+				return true;
+			}
+			else
+			return false;
+		}
+		 
+		]]>
+    </fx:Script>
+	
+	<fx:Style>
+		@namespace js "library://ns.apache.org/royale/basic";
+		
+		/* Puts a box around each cell of the DataGrids.
+		 */
+		js|DataGrid .DataItemRenderer {
+			border: 1px solid #ACACAC;
+			line-height: 40px;
+		}
+		js|DataGrid .StringItemRenderer {
+			border: 1px solid #ACACAC;
+			line-height: 40px;
+		}
+		
+		/* Allows the DataGrid to be specified with percentage widths for the columns (rather
+		 * than pixel widths) and does not respond to changes to its dataProvider.
+		 */
+		.PercentageColumnWidths {
+			IBeadLayout: ClassReference("org.apache.royale.html.beads.layouts.DataGridPercentageLayout");
+			border: 1px solid #ACACAC;
+		}
+		
+		.OuterGroup {
+			background-color: orange;
+			padding: 10px;
+		}
+		.OuterGroup .DataGrid {
+			position: relative;
+		}
+
+	</fx:Style>
+	<!--<js:beads id="updateBead">
+	<js:TextButton  text="Update Value" click="updateValue()" />
+	<js:TextInput id="entry1" text="New Value" />
+	</js:beads>-->
+		<js:HGroup>
+	<!-- The default configuration of the DataGrid, using only Array as the dataProvider. A style class
+	     has been added to add the DataGridPercentageLayout bead that lets the columns' widths be
+	     specified by percentages.
+	-->
+	<js:VGroup>
+	<js:HContainer x="20" y="50" width="400" height="350" className="OuterGroup">
+		
+	    <!-- demonstrates how to place a DataGrid into a Container that has padding. -->
+		<js:DataGrid id="dataGrid" width="100%" height="100%" 
+			change="dataGridChange(dataGrid, output1,event)" 
+			rowHeight="40" className="PercentageColumnWidths">
+			<js:beads>
+				<js:ConstantBinding
+					sourceID="applicationModel"
+					sourcePropertyName="productArray"
+					destinationPropertyName="dataProvider" />
+				
+			</js:beads>
+			<js:columns>
+				<js:DataGridColumn label="Image" dataField="image" columnWidth="15" itemRenderer="main.royale.products.ProductItemRenderer"/>
+				<js:DataGridColumn label="Title" dataField="title" columnWidth="60" />
+								<js:DataGridColumn label="Details" dataField="detail" columnWidth="25" />
+				<js:DataGridColumn label="Sales" dataField="sales" columnWidth="25" />
+
+				<js:DataGridColumn label="removecolumn" dataField="edit" columnWidth="15" />
+
+			</js:columns>
+		</js:DataGrid>
+		
+	</js:HContainer>
+		<!-- controls for first grid -->
+	<js:Label id="output1" x="30" y="430"/>
+	<js:TextButton text="Refresh Grid" x="20" y="460" click="refreshGrid()" />
+	<js:Label text="Refresh this grid after add or removing values" x="30" y="490" />
+	</js:VGroup>
+		
+	<!-- A dynamic DataGrid, responding to additions and deletions
+	-->
+	<js:VGroup>
+		<js:HContainer>
+	<js:DynamicDataGrid id="dataGrid2" x="520" y="50" width="400" height="350" change="dataGridChange(dataGrid2, output2, event)" 
+				 rowHeight="40">
+		<js:beads>
+			<js:ConstantBinding
+				sourceID="applicationModel"
+				sourcePropertyName="productList"
+				destinationPropertyName="dataProvider" />
+		</js:beads>
+		<js:columns>
+			<js:DataGridColumn label="Image" dataField="image" columnWidth="100" itemRenderer="main.royale.products.ProductItemRenderer"/>
+			<js:DataGridColumn label="Title" dataField="title" columnWidth="200"  />
+			<js:DataGridColumn label="Details" dataField="detail" columnWidth="100" />
+			<js:DataGridColumn label="Sales" dataField="sales" columnWidth="100" />
+		    <js:DataGridColumn label="removecolumn" id="edit">
+		    <js:itemRenderer>
+		    			<fx:Component >
+						<js:Group>
+		    			<fx:Script>
+                    <![CDATA[            
+                    import org.apache.royale.events.Event;
+                    import main.royale.models.ProductsModel;
+			
+			import org.apache.royale.html.DataGrid;
+			import main.royale.products.Product;
+			
+					
+                    ]]>
+                </fx:Script>
+		    <!--<js:Image id="image" src="main/resources/assets/minussign.jpg" width="10%" height="90%" />-->
+		    <js:TextButton text="Remove" visible="true" id="removeButtons" />
+		   <!-- <js:TextInput text="Label" id="removeButtons" change="dprovider(event)" />-->
+				</js:Group>
+		    			</fx:Component>
+		    </js:itemRenderer>
+		    </js:DataGridColumn>
+		    <js:DataGridColumn label="updatecolumn" >
+			
+		    <js:itemRenderer>
+		    			<fx:Component>
+		    			<js:HGroup>
+		    <js:TextButton text="Update" visible="true"/>
+		    </js:HGroup>
+		    			</fx:Component>
+		    </js:itemRenderer>
+
+		    </js:DataGridColumn>
+		</js:columns>
+	</js:DynamicDataGrid>
+		</js:HContainer>
+		
+	<!-- controls for second grid -->
+	<js:VGroup id="vg" visible="false">
+	<js:Label id="output2"  />
+	<js:HGroup id="hg" x="520" y="460">
+	<js:TextButton  text="Add Value" click="addValue()" />
+	<!--<js:TextButton  text="Remove Value" click="removeValue()" />
+	<js:TextButton  text="Update Value" click="updateValue()" />-->
+	</js:HGroup>
+	<js:TextInput id="entry" text="New Value"/>
+	</js:VGroup>
+	
+	
+	</js:VGroup>
+	
+	<!--<j:PopUp id="popByMethod">-->
+            <!--<js:VGroup id="vg1" visible="false">-->
+	<!--<js:Label id="output2"  />
+	<js:HGroup id="hg" x="520" y="460">
+	<js:TextButton  text="Add Value" click="addValue()" />
+	<js:TextButton  text="Remove Value" click="removeValue()" />
+	<js:TextButton  text="Update Value" click="updateValue()" />
+	</js:HGroup>
+	<js:TextInput id="entry" text="New Value"/>
+	</js:VGroup>-->
+        <!-- </j:PopUp>-->
+	
+
+	
+	<!--
+	  This bead is not working yet. It can be added to either DataGrid when it works.
+		<js:DataGridLinesBead>
+			<js:stroke>
+				<js:SolidColorStroke color="#FF8800" weight="2" />
+			</js:stroke>
+		</js:DataGridLinesBead>-->
+		
+		</js:HGroup>
+
+</js:View>
